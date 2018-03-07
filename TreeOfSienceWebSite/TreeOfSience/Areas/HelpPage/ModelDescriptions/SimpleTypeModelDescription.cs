@@ -1,0 +1,6 @@
+namespace TreeOfSience.Areas.HelpPage.ModelDescriptions
+{
+    public class SimpleTypeModelDescription : ModelDescription
+    {
+    }
+}
