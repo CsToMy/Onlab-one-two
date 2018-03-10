@@ -39,7 +39,7 @@ namespace TreeOfSience
                 "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/graphscripts").Include(
-                "~/Scripts/GraphLoader.js",
+                "~/Scripts/GraphHandler.js",
                 "~/Scripts/vis.js",
                 "~/Scripts/vis.min.js",
                 "~/Scripts/vis-network.js",

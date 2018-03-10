@@ -1,7 +1,10 @@
 ﻿<div id="search">
-    <form action="/Home/Search" method="post">
-        <input type="search" id="st" name="searchText" value="Search..." onclick="function() { document.getElementById('st').innerHTML=' '; }" />
-        <input type="submit" id="stb" name="searchButton" value="Search" />
+    <form action="Home/Search" method="post">
+        <input type="search" id="st" name="searchText" placeholder="Search..." />
+        <input type="submit" id="stb" name="searchButton" value="Search" width="5"/>
     </form>
 </div>
+
 <div id="network"></div>
+
+<iframe class="frame" id="frame" src='https://en.wikipedia.org/wiki/Science'></iframe>

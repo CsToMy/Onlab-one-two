@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
+using System.IO;
 
 namespace TreeOfSience.Models
 {
@@ -23,19 +24,39 @@ namespace TreeOfSience.Models
             }
         }
 
-        public IList<string> Read()
+        public string Read()
         {
             if (!Connect())
             {
-                throw new Exception("Could not connect to the database!");
+                //throw new Exception("Could not connect to the database!");
             }
 
-            //TODO: Read everything, pack it and return with it. Don't ask questions.
+            string rawData = ReadTestFile("C:\\Users\\Tomi\\Documents\\MEGA\\Repos\\Onlab-one-two\\TreeOfSienceWebSite\\TreeOfSience\\testData.json");
             
+            string preProcessedData = rawData;
+
+            //TODO: Read everything, pack it and return with it. Don't ask questions.
+
             //TODO: After that, close everything!
+
             Disconnect();
             
-            return null;
+            return preProcessedData;
+        }
+
+        // Only for testing
+        private string ReadTestFile(string filePath)
+        {
+            JObject jsonFile = JObject.Parse(File.ReadAllText(filePath));
+            string data = "";
+            // read JSON directly from a file
+            using (StreamReader file = File.OpenText(filePath))
+            using (JsonTextReader reader = new JsonTextReader(file))
+            {
+                JObject jsonData = (JObject)JToken.ReadFrom(reader);
+                data = jsonData.ToString();
+            }
+            return data;
         }
 
         private DBManagger()

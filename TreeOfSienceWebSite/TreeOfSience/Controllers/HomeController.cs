@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using TreeOfSience.Models;
@@ -21,17 +20,19 @@ namespace TreeOfSience.Controllers
             return View();
         }
 
-        public EmptyResult Search(string searchText)
+        public JsonResult Search(string searchText)
         {
             //TODO: define return value
             string x = searchText;
             if (searchText != null)
             {
-                string pos = null;
+                string pos = null; // contains the node id
                 if (!networker.Search(searchText, ref pos))
-                    return new EmptyResult();
+                    return new JsonResult();
+                else
+                    ;//TODO: jump to the found node
             }
-            return new EmptyResult();
+            return new JsonResult();
         }
 
         public JsonResult GetNetworkData()
@@ -40,19 +41,22 @@ namespace TreeOfSience.Controllers
 
             try
             {
+                // init json response
                 data = new JsonResult();
                 data.ContentEncoding = Encoding.UTF8;
                 data.ContentType = "application/json; charset=utf-8";
                 data.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
                 
-                IList<string> dataList = null;
+                // read json data
+                IList<string> dataList = new List<string>();
                 if (networker.GetGraph(ref dataList))
-                    data.Data = "";
+                    data.Data = dataList[0]; // TODO: create function which fill this list
                 else // For testing.
                     data.Data = "{\"nodes\":[{\"id\": \"1\", \"label\":\"html color\", \"color\": \"lime\"}, {\"id\": \"2\", \"label\":\"Node A\"}], \"edges\":[{\"from\": \"1\", \"to\": \"2\"}]}";//dummy example
             }
             catch (Exception e)
             {
+                var x = e.Message;
                 data = null;
             }
             return data;
