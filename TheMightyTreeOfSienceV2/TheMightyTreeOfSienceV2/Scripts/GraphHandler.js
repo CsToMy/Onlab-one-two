@@ -9,8 +9,6 @@ function GetNetworkAjaxDotNet() {
             document.getElementById('network').innerHTML = "";
             var container = document.getElementById('network');
 
-            alert(parsedData["nodes"]);
-
             var data = {
                 nodes: parsedData["nodes"],
                 edges: parsedData["edges"]

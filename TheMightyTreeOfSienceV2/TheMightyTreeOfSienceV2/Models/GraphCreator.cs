@@ -21,9 +21,11 @@ namespace TheMightyTreeOfSienceV2.Models
             if (data == null)
                 return false;
 
-            JObject rawData = dbMan.Read("ip:port/api", "");            
+            JObject rawData = dbMan.Read("ip:port/api", "");
+            List<JProperty> properties = rawData.Properties().ToList<JProperty>();
+
             data = rawData.ToString();
-            // kell: "{\"nodes\":[{\"id\":0, \"label\":\"próba\"}], \"edges\":[], \"options: }"
+            // kell: "{\"nodes\":[], \"edges\":[], \"options:{} }"
             string jsonText = "{";
             
             //data = jsonText;
