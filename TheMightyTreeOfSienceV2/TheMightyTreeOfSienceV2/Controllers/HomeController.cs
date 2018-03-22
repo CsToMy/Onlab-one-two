@@ -26,8 +26,7 @@ namespace TheMightyTreeOfSienceV2.Controllers
             string x = searchText; //for debug
             if (searchText != null)
             {
-                //TODO: buffer data
-                //TODO: send REST request
+                
             }
             return new JsonResult();
         }
@@ -43,17 +42,17 @@ namespace TheMightyTreeOfSienceV2.Controllers
                 data.ContentEncoding = Encoding.UTF8;
                 data.ContentType = "application/json; charset=utf-8";
                 data.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-                
+
                 // read json data
-                string x = "";
-                if (networker.GetGraph(ref x))
-                    data.Data = x; // TODO: create function which fill this list
+                string json = "";
+                if (networker.GetGraph(ref json))
+                    data.Data = json; // TODO: create function which fill this list
                 else // For testing.
                     ;
             }
             catch (Exception e)
             {
-                var x = e.Message;
+                data.Data = "{\"error\":" + e.Message +"}";
                 data = null;
             }
             return data;

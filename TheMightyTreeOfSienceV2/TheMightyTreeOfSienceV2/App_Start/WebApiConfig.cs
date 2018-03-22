@@ -23,6 +23,13 @@ namespace TheMightyTreeOfSienceV2
             // Web API routes
             config.MapHttpAttributeRoutes();
 
+            // TODO: Is this correct????????
+            // TODO: Get the address of the APIs
+            /*config.Routes.MapHttpRoute(
+                    name: "RemoteDatabaseAPI",
+                    routeTemplate: "ip:port/api"
+                );*/
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

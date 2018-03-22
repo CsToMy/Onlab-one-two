@@ -15,12 +15,13 @@ namespace JSONTest
         public static void Main(string[] args)
         {
             //JObject x = new JObject("{\"name\":\"Bob\", \"age\":32}");
-            JObject x = ReadTestFile("C:\\Users\\Tomi\\Documents\\Visual Studio 2015\\Projects\\TheMightyTreeOfSienceV2\\TheMightyTreeOfSienceV2\\TestJsons\\testData.json");
+            JObject x = ReadTestFile("C:\\Users\\Tomi\\Documents\\Visual Studio 2015\\Projects\\Onlab-one-two\\TheMightyTreeOfSienceV2\\TheMightyTreeOfSienceV2\\TestJsons\\testData.json");
             List<JProperty> props = x.Properties().ToList<JProperty>();
             foreach (JProperty prop in props)
             {
-                Console.Write("{0}, ",prop.Name);
+                Console.Write("{0}; {1}; ",prop.Name, prop.First[1]);
             }
+
             Console.WriteLine();
             /*JArray nodeList = JArray.Parse(x[props[0].Name].ToString());
             Console.WriteLine(nodeList.Count);

@@ -26,10 +26,10 @@ namespace TheMightyTreeOfSienceV2.Models
             //string rawData = ReadTestFile("C:\\Users\\Tomi\\Documents\\MEGA\\Repos\\Onlab-one-two\\TreeOfSienceWebSite\\TreeOfSience\\testData.json");
             JObject rawData = ReadTestFile("C:\\Users\\Tomi\\Documents\\Visual Studio 2015\\Projects\\TheMightyTreeOfSienceV2\\TheMightyTreeOfSienceV2\\TestJsons\\testData.json");
             
-            //TODO: Read everything, pack it and return with it. Don't ask questions.
+            // TODO: Read everything, pack it and return with it. Don't ask questions.
+            // TODO: Exception handling, throwing
             /*IRestRequest request = new RestRequest(Method.GET);
             request.Resource = resource;
-
             IRestClient client = new RestClient(url);
             //TODO: set request's properties. Header, body, params, etc...
             IRestResponse response = null;
@@ -48,6 +48,8 @@ namespace TheMightyTreeOfSienceV2.Models
 
         public string ReadVoice()
         {
+            // TODO: Create db for this side project
+            // TODO: 
             return null;
         }
 
