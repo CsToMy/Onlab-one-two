@@ -15,23 +15,63 @@ namespace JSONTest
         public static void Main(string[] args)
         {
             //JObject x = new JObject("{\"name\":\"Bob\", \"age\":32}");
-            JObject x = ReadTestFile("C:\\Users\\Tomi\\Documents\\Visual Studio 2015\\Projects\\Onlab-one-two\\TheMightyTreeOfSienceV2\\TheMightyTreeOfSienceV2\\TestJsons\\testData.json");
-            List<JProperty> props = x.Properties().ToList<JProperty>();
-            foreach (JProperty prop in props)
+            JObject x = ReadTestFile("C:\\Users\\Tomi\\Documents\\Visual Studio 2015\\Projects\\Onlab-one-two\\TheMightyTreeOfSienceV2\\TheMightyTreeOfSienceV2\\TestJsons\\testData3.json");
+
+            List<JToken> result = x["result"].ToList(); // ArgumentNullException if its not exists
+            JObject node = null;
+            JObject jsonGraph = new JObject();
+            JArray jNodes = new JArray();
+
+            foreach (JToken item in result)
             {
-                Console.Write("{0}; {1}; ",prop.Name, prop.First[1]);
+                node = new JObject();
+                node.Add("id", item["@rid"]);
+                node.Add("label", item["title"]);
+                node.Add("shape", "ellipse");
+                node.Add("color", "red");
+                jNodes.Add(node);
+            }
+            
+            JArray jEdges = new JArray();
+            JObject jOptions = new JObject();
+            //out_  _in
+            for (int i = 0; i < result.Count; i++)
+            {
+                JObject temp = (JObject)result[i];
+                JObject edge = new JObject();
+                string f, t;
+                if (temp.Property("out_") != null)
+                {
+                    f = temp["@rid"].ToString();
+                    foreach (var item in temp["out_"].ToList())
+                    {
+                        t = item.ToString();
+                        edge = new JObject();
+                        edge.Add("from", f);
+                        edge.Add("to", t);
+                        jEdges.Add(edge);
+                    }
+                    //Console.WriteLine("{1} Bemenő él. Értéke in_: {0}", temp["in_"].ToString(), i);
+                }
+                else
+                {
+                    t = temp["@rid"].ToString();
+                    foreach (var item in temp["in_"].ToList())
+                    {
+                        edge = new JObject();
+                        f = item.ToString();
+                        edge.Add("from", f);
+                        edge.Add("to", t);
+                        jEdges.Add(edge);
+                    }
+                    //Console.WriteLine("{1} Kimenő él. Értéke out_: {0}", temp["out_"].ToString(), i);
+                }
             }
 
-            Console.WriteLine();
-            /*JArray nodeList = JArray.Parse(x[props[0].Name].ToString());
-            Console.WriteLine(nodeList.Count);
-            for (int i = 0; i < nodeList.Count; i++)
-            {
-                Console.Write(nodeList[i].ToString());
-            }
-            */
-            /*x = ReadRDB("ip:port/api");
-            Console.WriteLine(x.Count.ToString());*/
+            jsonGraph.Add("nodes", jNodes);
+            jsonGraph.Add("edges", jEdges);
+            //jsonGraph.Add("options", jOptions);
+            Console.WriteLine(jsonGraph);
             Console.ReadKey();
         }
 

@@ -15,11 +15,13 @@ namespace TheMightyTreeOfSienceV2.Controllers
             networker = new GraphCreator();
         }
 
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public JsonResult Search(string searchText)
         {
             //TODO: define return value
@@ -31,6 +33,7 @@ namespace TheMightyTreeOfSienceV2.Controllers
             return new JsonResult();
         }
 
+        [AllowAnonymous]
         public JsonResult GetNetworkData()
         {
             JsonResult data = null;

@@ -24,7 +24,7 @@ namespace TheMightyTreeOfSienceV2.Models
         public JObject Read(string url, string resource)
         {
             //string rawData = ReadTestFile("C:\\Users\\Tomi\\Documents\\MEGA\\Repos\\Onlab-one-two\\TreeOfSienceWebSite\\TreeOfSience\\testData.json");
-            JObject rawData = ReadTestFile("C:\\Users\\Tomi\\Documents\\Visual Studio 2015\\Projects\\TheMightyTreeOfSienceV2\\TheMightyTreeOfSienceV2\\TestJsons\\testData.json");
+            JObject rawData = ReadTestFile("C:\\Users\\Tomi\\Documents\\Visual Studio 2015\\Projects\\Onlab-one-two\\TheMightyTreeOfSienceV2\\TheMightyTreeOfSienceV2\\TestJsons\\testData3.json");
             
             // TODO: Read everything, pack it and return with it. Don't ask questions.
             // TODO: Exception handling, throwing

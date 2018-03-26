@@ -8,7 +8,6 @@ function GetNetworkAjaxDotNet() {
             var parsedData = JSON.parse(data); // json is assumed valid, no need for checking
             document.getElementById('network').innerHTML = "";
             var container = document.getElementById('network');
-
             var data = {
                 nodes: parsedData["nodes"],
                 edges: parsedData["edges"]
