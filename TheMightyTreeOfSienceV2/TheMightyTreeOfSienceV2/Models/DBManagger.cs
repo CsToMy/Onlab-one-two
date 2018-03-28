@@ -23,8 +23,7 @@ namespace TheMightyTreeOfSienceV2.Models
 
         public JObject Read(string url, string resource)
         {
-            //string rawData = ReadTestFile("C:\\Users\\Tomi\\Documents\\MEGA\\Repos\\Onlab-one-two\\TreeOfSienceWebSite\\TreeOfSience\\testData.json");
-            JObject rawData = ReadTestFile("C:\\Users\\Tomi\\Documents\\Visual Studio 2015\\Projects\\Onlab-one-two\\TheMightyTreeOfSienceV2\\TheMightyTreeOfSienceV2\\TestJsons\\testData3.json");
+            JObject rawData = ReadJsonFile("C:\\Users\\Tomi\\Documents\\Visual Studio 2015\\Projects\\Onlab-one-two\\TheMightyTreeOfSienceV2\\TheMightyTreeOfSienceV2\\TestJsons\\testData3.json");
             
             // TODO: Read everything, pack it and return with it. Don't ask questions.
             // TODO: Exception handling, throwing
@@ -42,7 +41,7 @@ namespace TheMightyTreeOfSienceV2.Models
                 string x = "Exception: " + e.Message + ".  Response:" + response.ErrorMessage;
                 throw;
             }*/
-                
+
             return rawData;
         }
 
@@ -53,8 +52,13 @@ namespace TheMightyTreeOfSienceV2.Models
             return null;
         }
 
+        public JObject ReadGraphOptions()
+        {
+            return ReadJsonFile("C:\\Users\\Tomi\\Documents\\Visual Studio 2015\\Projects\\Onlab-one-two\\TheMightyTreeOfSienceV2\\TheMightyTreeOfSienceV2\\TestJsons\\testOptions.json");
+        }
+
         // Only for testing
-        private JObject ReadTestFile(string filePath)
+        private JObject ReadJsonFile(string filePath)
         {
             JObject jsonFile = JObject.Parse(File.ReadAllText(filePath));
             JObject data = null;
@@ -63,7 +67,7 @@ namespace TheMightyTreeOfSienceV2.Models
             using (JsonTextReader reader = new JsonTextReader(file))
             {
                 JObject jsonData = (JObject)JToken.ReadFrom(reader);
-                data = jsonData;//.ToString();
+                data = jsonData;
             }
             return data;
         }

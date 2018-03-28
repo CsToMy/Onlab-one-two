@@ -55,8 +55,7 @@ namespace TheMightyTreeOfSienceV2.Controllers
             }
             catch (Exception e)
             {
-                data.Data = "{\"error\":" + e.Message +"}";
-                data = null;
+                data.Data = e.Message;
             }
             return data;
         }

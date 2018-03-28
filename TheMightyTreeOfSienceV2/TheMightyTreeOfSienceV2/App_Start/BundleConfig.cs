@@ -38,12 +38,11 @@ namespace TheMightyTreeOfSienceV2
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/respond.js"));
 
+            // Added by me.
             bundles.Add(new ScriptBundle("~/bundles/graphscripts").Include(
                 "~/Scripts/GraphHandler.js",
                 "~/Scripts/vis.js",
-                "~/Scripts/vis.min.js",
-                "~/Scripts/vis-network.js",
-                "~/Scripts/vis-network.min.js"));
+                "~/Scripts/vis-network.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                  "~/Content/bootstrap.css",

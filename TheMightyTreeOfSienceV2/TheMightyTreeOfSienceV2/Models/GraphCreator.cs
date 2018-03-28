@@ -10,13 +10,11 @@ namespace TheMightyTreeOfSienceV2.Models
 
     public class GraphCreator
     {
-        private IList<JProperty> props = null;
         private DBManagger dbMan = null;        // handles database connections, read db's
 
         public GraphCreator()
         {
             dbMan = DBManagger.DBManaggerInstance;
-            props = new List<JProperty>();
         }
 
         public bool GetGraph(ref string data)
@@ -32,40 +30,43 @@ namespace TheMightyTreeOfSienceV2.Models
             // TODO: Exception handling
             // TODO: Measure performance
             JObject rawData = null;
-            JObject jsonGraph = new JObject();
+            JObject jsonGraph = null;
 
             try
             {
                 //rawData = dbMan.Read("ip:port/api", "");
                 rawData = dbMan.Read("próba", "teszt");
-
                 List<JToken> result = rawData["result"].ToList(); // ArgumentNullException if its not exists
+                jsonGraph = new JObject();
                 JObject node = null;
+                JObject edge = null;
+                //JObject jOptions = null;
+                JArray jEdges = new JArray();
                 JArray jNodes = new JArray();
+                //node-ok és élek külön szálon
 
                 foreach (JToken item in result)
                 {
                     node = new JObject();
                     node.Add("id", item["@rid"]);
                     node.Add("label", item["title"]);
-                    node.Add("shape", "ellipse");
+                    node.Add("url", item["url"]);
+                    node.Add("shape", "box");
                     jNodes.Add(node);
+                    //node.RemoveAll(); // ha referenciákat ad át, akkor eztönkre teszi az egészet
                 }
 
-                JArray jEdges = new JArray();
-                JObject jOptions = new JObject();
-
+                string f = "", t = "";
                 for (int i = 0; i < result.Count; i++)
                 {
-                    JObject temp = (JObject)result[i];
-                    JObject edge = new JObject();
-                    string f, t;
-                    if (temp.Property("out_") != null)
+                    f = ""; t = "";
+                    if (((JObject)result[i]).Property("out_") != null)
                     {
-                        f = temp["@rid"].ToString();
-                        foreach (var item in temp["out_"].ToList())
+                        f = result[i]["@rid"].ToString();
+                        
+                        for (int j=0; j<result[i]["out_"].ToList().Count; ++j)
                         {
-                            t = item.ToString();
+                            t = result[i]["out_"].ToList()[j].ToString(); // ugly...
                             edge = new JObject();
                             edge.Add("from", f);
                             edge.Add("to", t);
@@ -74,24 +75,36 @@ namespace TheMightyTreeOfSienceV2.Models
                     }
                     else
                     {
-                        t = temp["@rid"].ToString();
-                        foreach (var item in temp["in_"].ToList())
+                    /*    t = result[i]["@rid"].ToString();
+                        for (int j = 0; j< result[i]["in_"].ToList().Count; ++j)
                         {
+                            f = result[i]["in_"].ToList()[j].ToString();
                             edge = new JObject();
-                            f = item.ToString();
                             edge.Add("from", f);
                             edge.Add("to", t);
                             jEdges.Add(edge);
                         }
-                    }
+                     */
+                    }                    
                 }
 
                 jsonGraph.Add("nodes", jNodes);
                 jsonGraph.Add("edges", jEdges);
+                jsonGraph.Add("options", dbMan.ReadGraphOptions());
             }
             catch (Exception e)
             {
-                string x = e.Message;
+                JObject errorJson = new JObject();
+                JObject info = new JObject();
+
+                info.Add("systemMessage", e.Message);
+                info.Add("usrInfo", e.Data.ToString());
+                info.Add("innerException", e.InnerException.ToString());
+                info.Add("source", e.Source);
+                info.Add("from", "2"); // 1=DbMgm, 2=GraphCreator, 3=Controller
+
+                errorJson.Add("error", info);
+                throw new Exception(errorJson.ToString());
             } finally
             {
                 //data = rawData.ToString();

@@ -121,10 +121,5 @@ C:\Users\Tomi\Documents\Visual Studio 2015\Projects\Onlab-one-two\TheMightyTreeO
 C:\Users\Tomi\Documents\Visual Studio 2015\Projects\Onlab-one-two\TheMightyTreeOfSienceV2\TheMightyTreeOfSienceV2\bin\roslyn\Microsoft.CodeAnalysis.dll
 C:\Users\Tomi\Documents\Visual Studio 2015\Projects\Onlab-one-two\TheMightyTreeOfSienceV2\TheMightyTreeOfSienceV2\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 C:\Users\Tomi\Documents\Visual Studio 2015\Projects\Onlab-one-two\TheMightyTreeOfSienceV2\TheMightyTreeOfSienceV2\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
-C:\Users\Tomi\Documents\Visual Studio 2015\Projects\Onlab-one-two\TheMightyTreeOfSienceV2\TheMightyTreeOfSienceV2\bin\roslyn\System.Collections.Immutable.dll
-C:\Users\Tomi\Documents\Visual Studio 2015\Projects\Onlab-one-two\TheMightyTreeOfSienceV2\TheMightyTreeOfSienceV2\bin\roslyn\System.IO.FileSystem.dll
-C:\Users\Tomi\Documents\Visual Studio 2015\Projects\Onlab-one-two\TheMightyTreeOfSienceV2\TheMightyTreeOfSienceV2\bin\roslyn\System.IO.FileSystem.Primitives.dll
-C:\Users\Tomi\Documents\Visual Studio 2015\Projects\Onlab-one-two\TheMightyTreeOfSienceV2\TheMightyTreeOfSienceV2\bin\roslyn\System.Reflection.Metadata.dll
-C:\Users\Tomi\Documents\Visual Studio 2015\Projects\Onlab-one-two\TheMightyTreeOfSienceV2\TheMightyTreeOfSienceV2\bin\roslyn\System.Security.Cryptography.Primitives.dll
-C:\Users\Tomi\Documents\Visual Studio 2015\Projects\Onlab-one-two\TheMightyTreeOfSienceV2\TheMightyTreeOfSienceV2\bin\roslyn\System.ValueTuple.dll
+C:\Users\Tomi\Documents\Visual Studio 2015\Projects\Onlab-one-two\TheMightyTreeOfSienceV2\TheMightyTreeOfSienceV2\bin\roslyn\System.IO.Compression.dll
 C:\Users\Tomi\Documents\Visual Studio 2015\Projects\Onlab-one-two\TheMightyTreeOfSienceV2\TheMightyTreeOfSienceV2\bin\roslyn\VBCSCompiler.exe

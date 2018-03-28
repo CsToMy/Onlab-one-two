@@ -5,108 +5,103 @@ function GetNetworkAjaxDotNet() {
         method: 'GET',
         dataType: 'json',
         success: function (data) {
+            console.log(data);
             var parsedData = JSON.parse(data); // json is assumed valid, no need for checking
             document.getElementById('network').innerHTML = "";
             var container = document.getElementById('network');
-            var data = {
-                nodes: parsedData["nodes"],
-                edges: parsedData["edges"]
-            };
-
-            //TODO: opciókat is átadni szerver oldalról.
-            /*var options = {
-                nodes: { borderWidth: 2 },
-                interaction: { hover: true }
-            };*/
-
-            var options = {
-                physics: {
-                    barnesHut: {
-                        centralGravity: 0.001
+            var graphData = null;
+            console.log(parsedData);
+            if (parsedData["error"] == null) {
+                graphData = {
+                    nodes: parsedData["nodes"],
+                    edges: parsedData["edges"]
+                };
+                console.log("Error has occured!\n");
+            } else {
+                var errorNode = {
+                    id: 1,
+                    title: parsedData["error"]["info"]["usrInfo"],
+                    label: parsedData["error"]["info"]["systemMessage"],
+                    color: {
+                        background: "#2A0A0A"
                     },
-                    minVelocity: 0.75
+                    font: {
+                        color: "#FFFFFF",
+                        face: "arial",
+                        align: "center"
+                    }
+                };
+
+                graphData = {
+                    nodes: errorNode,
+                    edges: null
+                };
+            }
+            //TODO: opciókat is átadni szerver oldalról.
+            var options = {
+                configure: {
+                    enabled: true,
+                    showButton: true,
+                    filter: true
                 },
-                interaction: {
-                    hover: true,
-                    hoverConnectedEdges: true,
-                    keyboard: false
+                nodes: {
+                    borderWidth: 2,
+                    borderWidthSelected: 3,
+                    heightConstraint: false,
+                    margin: 5,
+                    shadow: false,
+                    font: {
+                        color: "#FFFFFF",
+                        face: "arial",
+                        align: "center"
+                    },
+                    color: {
+                        background: "#0000FF", // dark blue-ish
+                        highlight: "#2E2EFE", // light blue
+                        hover: "#0101DF" // dark blue
+                    },
                 },
                 edges: {
                     smooth: {
-                        type: 'discrete'
+                        type: "dynamic",
+                        roundness: 0.6,
                     },
-                    width: 0.4,
-                    selectionWidth: 0.5,
-                    hoverWidth: 0.5,
-                    arrows: { to: true }
-                },
-
-                nodes: {
-                    shape: 'text',
-                    color: '#822309',
-                    scaling: {
-                        customScalingFunction: function (min, max, total, value) {
-                            if (value == 0 || value >= 10) {
-                                return 0.08;
-                            } else if (value == 1) {
-                                return 1;
-                            } else if (value == 2) {
-                                return 0.7;
-                            } else if (value == 3) {
-                                return 0.5;
-                            } else if (value == 4) {
-                                return 0.2;
-                            } else if (value == 5) {
-                                return 0.13;
-                            } else if (value == 6) {
-                                return 0.11;
-                            } else if (value == 7) {
-                                return 0.09;
-                            } else if (value == 8) {
-                                return 0.07;
-                            } else if (value == 9) {
-                                return 0.06;
-                            }
-                        },
-                        min: 0,
-                        max: 10,
-                        label: {
+                    hoverWidth: 1.7,
+                    arrows: {
+                        to: {
                             enabled: true,
-                            min: 0,
-                            max: 80,
-                            maxVisible: 40,
-                            drawThreshold: 20
-                        }
-                    }
+                            scaleFactor: 1.5,
+                            type: "arrow"
+                        },
+                        middle: false,
+                        from: false
+                    },
+                    arrowStrikethrough: false,
+                    chosen: true,
+                    color: {
+                        color: "#610B0B", // dark red-ish
+                        highlight: "#190707", // dark red
+                        hover: "#2A0A0A" // befor dark red, but after dark red-ish
+                    },
+                    shadow: false,
+                },
+                interaction: {
+                    hover: true,
+                    dragNodes: true,
+                    dragView: true,
+                    multiselect: true,
+                    hideEdgesOnDrag: true,
+                    hideNodesOnDrag: false,
+                    keyboard: false,
+                    multiselect: true,
+                    navigationButtons: false,
+                    zoomView:true
                 }
             };
 
-            // ez felel a kis ablakok felugrásáért
-            // TODO: rájönni mit miért csinál.
-            /*$("#search").click(function () {
-                $("#frame").hide("drop", 500);
-            });
-
-            $("#search").keydown(function () {
-                $("#frame").hide("drop", 500);
-            });*/
-
-            var network = new vis.Network(container, data, options);
+            var network = new vis.Network(container, graphData, parsedData["options"]);
         },
         error: function (xhr, ajaxOptions, thrownError) { alert("Hiba! "+xhr.responseText+ " "+thrownError); },
-    });
-}
-
-function Search(sText) {
-    $.ajax({
-        url: "Home/Search",
-        parameter: { searchText: sText },
-        method: "GET",
-        dataType: "json",
-        success: function(data) {
-            alert(data);
-        },
-        error: function (xhr, ajaxOptions, thrownError) { alert("Hiba! "+xhr.responseText+ " "+thrownError); }
     });
 }
 
