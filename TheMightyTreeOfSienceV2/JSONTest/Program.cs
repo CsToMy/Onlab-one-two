@@ -15,64 +15,83 @@ namespace JSONTest
         public static void Main(string[] args)
         {
             //JObject x = new JObject("{\"name\":\"Bob\", \"age\":32}");
-            JObject x = ReadTestFile("C:\\Users\\Tomi\\Documents\\Visual Studio 2015\\Projects\\Onlab-one-two\\TheMightyTreeOfSienceV2\\TheMightyTreeOfSienceV2\\TestJsons\\testData3.json");
+            JObject rawData = ReadBigTestFile("C:\\Users\\Tomi\\Documents\\OpenAcademiTestDB\\mag_papers_166.txt");
+            JObject jsonGraph = null;
 
-            List<JToken> result = x["result"].ToList(); // ArgumentNullException if its not exists
-            JObject node = null;
-            JObject jsonGraph = new JObject();
-            JArray jNodes = new JArray();
-
-            foreach (JToken item in result)
+            try
             {
-                node = new JObject();
-                node.Add("id", item["@rid"]);
-                node.Add("label", item["title"]);
-                node.Add("shape", "ellipse");
-                node.Add("color", "red");
-                jNodes.Add(node);
-            }
-            
-            JArray jEdges = new JArray();
-            JObject jOptions = new JObject();
-            //out_  _in
-            for (int i = 0; i < result.Count; i++)
+                List<JToken> result = rawData["result"].ToList(); // ArgumentNullException if its not exists
+                jsonGraph = new JObject();
+                JObject node = null;
+                JObject edge = null;
+                //JObject jOptions = null;
+                JArray jEdges = new JArray();
+                JArray jNodes = new JArray();
+                //node-ok és élek külön szálon
+
+                foreach (JToken item in result)
+                {
+                    node = new JObject();
+                    node.Add("id", item["@rid"]);
+                    node.Add("label", item["title"]);
+                    node.Add("url", item["url"]);
+                    node.Add("shape", "box");
+                    jNodes.Add(node);
+                    //node.RemoveAll(); // ha referenciákat ad át, akkor eztönkre teszi az egészet
+                }
+
+                string f = "", t = "";
+                for (int i = 0; i < result.Count; i++)
+                {
+                    f = ""; t = "";
+                    if (((JObject)result[i]).Property("out_") != null)
+                    {
+                        f = result[i]["@rid"].ToString();
+                        foreach (var item in result[i]["out_"].ToList())
+                        {
+                            t = item.ToString();
+                            edge = new JObject();
+                            edge.Add("from", f);
+                            edge.Add("to", t);
+                            jEdges.Add(edge);
+                        }
+                    }
+                    else
+                    {
+                        t = result[i]["@rid"].ToString();
+                        foreach (var item in result[i]["in_"].ToList())
+                        {
+                            f = item.ToString();
+                            edge = new JObject();
+                            edge.Add("from", f);
+                            edge.Add("to", t);
+                            jEdges.Add(edge);
+                        }
+                    }
+                }
+
+                jsonGraph.Add("nodes", jNodes);
+                jsonGraph.Add("edges", jEdges);
+                //jsonGraph.Add("options", jOptions);
+                Console.WriteLine(jsonGraph);
+            } catch(Exception e)
             {
-                JObject temp = (JObject)result[i];
-                JObject edge = new JObject();
-                string f, t;
-                if (temp.Property("out_") != null)
-                {
-                    f = temp["@rid"].ToString();
-                    foreach (var item in temp["out_"].ToList())
-                    {
-                        t = item.ToString();
-                        edge = new JObject();
-                        edge.Add("from", f);
-                        edge.Add("to", t);
-                        jEdges.Add(edge);
-                    }
-                    //Console.WriteLine("{1} Bemenő él. Értéke in_: {0}", temp["in_"].ToString(), i);
-                }
-                else
-                {
-                    t = temp["@rid"].ToString();
-                    foreach (var item in temp["in_"].ToList())
-                    {
-                        edge = new JObject();
-                        f = item.ToString();
-                        edge.Add("from", f);
-                        edge.Add("to", t);
-                        jEdges.Add(edge);
-                    }
-                    //Console.WriteLine("{1} Kimenő él. Értéke out_: {0}", temp["out_"].ToString(), i);
-                }
+                Console.WriteLine(e.Message);
             }
 
-            jsonGraph.Add("nodes", jNodes);
-            jsonGraph.Add("edges", jEdges);
-            //jsonGraph.Add("options", jOptions);
-            Console.WriteLine(jsonGraph);
             Console.ReadKey();
+        }
+
+        private static JObject ReadBigTestFile(string filePath)
+        {
+            JObject data = new JObject(JObject.Parse("{result:{}}"));
+            // read JSON directly from a file
+            using (StreamReader file = File.OpenText(filePath))
+            using (JsonTextReader reader = new JsonTextReader(file))
+            {
+                data["result"] = (JObject)JToken.ReadFrom(reader);
+            }
+            return data;
         }
 
         private static JObject ReadRDB(string url)
