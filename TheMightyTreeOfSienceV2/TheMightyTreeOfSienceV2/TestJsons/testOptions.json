@@ -1,13 +1,14 @@
 ﻿{
   "configure": {
-    "enabled": true,
-    "showButton": true,
-    "filter": true
+    "enabled": false,
+    "showButton": false,
+    "filter": false
   },
   "nodes": {
     "borderWidth": 2,
     "borderWidthSelected": 3,
     "heightConstraint": false,
+    "labelHighlightBold": true,
     "margin": 5,
     "shadow": false,
     "font": {
@@ -16,9 +17,9 @@
       "align": "center"
     },
     "color": {
-      "background": "#0000FF", // dark blue-ish
-      "highlight": "#2E2EFE", // light blue
-      "hover": "#0101DF" // dark blue
+      "background": "#0000FF",
+      "highlight": "#2E2EFE",
+      "hover": "#0101DF"
     }
   },
   "edges": {
@@ -39,9 +40,9 @@
     "arrowStrikethrough": false,
     "chosen": true,
     "color": {
-      "color": "#610B0B", // dark red-ish
-      "highlight": "#190707", // dark red
-      "hover": "#2A0A0A" // befor dark red, but after dark red-ish
+      "color": "#610B0B",
+      "highlight": "#190707",
+      "hover": "#2A0A0A"
     },
     "shadow": false
   },
@@ -53,7 +54,6 @@
     "hideEdgesOnDrag": true,
     "hideNodesOnDrag": false,
     "keyboard": false,
-    "multiselect": true,
     "navigationButtons": false,
     "zoomView": true
   }

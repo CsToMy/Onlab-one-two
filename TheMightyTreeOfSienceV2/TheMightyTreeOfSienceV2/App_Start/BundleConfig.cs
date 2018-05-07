@@ -41,12 +41,14 @@ namespace TheMightyTreeOfSienceV2
             // Added by me.
             bundles.Add(new ScriptBundle("~/bundles/graphscripts").Include(
                 "~/Scripts/GraphHandler.js",
+                "~/Scripts/index.js",
                 "~/Scripts/vis.js",
                 "~/Scripts/vis-network.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                  "~/Content/bootstrap.css",
-                 "~/Content/Site.css"));
+                 "~/Content/Site.css",
+                 "~/Content/index.css"));
         }
     }
 }

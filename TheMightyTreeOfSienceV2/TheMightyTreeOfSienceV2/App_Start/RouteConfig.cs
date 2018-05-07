@@ -13,11 +13,18 @@ namespace TheMightyTreeOfSienceV2
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                url: "{controller}/{action}",
+                defaults: new { controller = "Home", action = "Index" }
             );
+
+            routes.MapRoute(
+                name: "DrawGraph",
+                url:"{controller}/{action}/{searchType}/{searchText}",
+                defaults: new { controller = "Home", action = "GetNetworkData", searchType = "all", searchText="gettest"}
+                );
         }
     }
 }
