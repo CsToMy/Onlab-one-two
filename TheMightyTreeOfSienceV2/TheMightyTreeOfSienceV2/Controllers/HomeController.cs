@@ -16,28 +16,25 @@ namespace TheMightyTreeOfSienceV2.Controllers
         }
 
         [AllowAnonymous]
+        [Route("Default")]
         public ActionResult Index()
         {
             return View();
         }
 
         [AllowAnonymous]
-        public JsonResult Search(string searchText)
+        public ActionResult Network()
         {
-            //TODO: define return value
-            string x = searchText; //for debug
-            if (searchText != null)
-            {
-                
-            }
-            return new JsonResult();
+            return View();
         }
 
         [AllowAnonymous]
-        public JsonResult GetNetworkData()
+        [Route("DrawGraph")]
+        public JsonResult GetNetworkData(string searchType, string searchText)
         {
+            //string resource = "keyword/security"; // for testing
+            string resource = searchType + '/' + searchText;
             JsonResult data = null;
-
             try
             {
                 // init json response
@@ -47,15 +44,12 @@ namespace TheMightyTreeOfSienceV2.Controllers
                 data.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 
                 // read json data
-                string json = "";
-                if (networker.GetGraph(ref json))
-                    data.Data = json; // TODO: create function which fill this list
-                else // For testing.
-                    ;
+                data.Data = networker.GetGraph(resource);
             }
             catch (Exception e)
             {
-                data.Data = e.Message;
+                data.Data = ExceptionHandler.GetExceptionInfo("We are so sorry! Something went wrongin our side! Please, try again later!", e, 3);
+                return data;
             }
             return data;
         }

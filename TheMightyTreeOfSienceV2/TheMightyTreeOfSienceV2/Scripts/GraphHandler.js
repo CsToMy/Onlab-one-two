@@ -1,109 +1,64 @@
 ﻿
-function GetNetworkAjaxDotNet() {
+function GetNetworkAjaxDotNet(searchData) {
+    var parsedSearchData = JSON.parse(searchData);
     $.ajax({
-        url: 'Home/GetNetworkData',
+        url: 'GetNetworkData/' + parsedSearchData['searchType'] + '/' + parsedSearchData['searchText'],
         method: 'GET',
         dataType: 'json',
         success: function (data) {
-            console.log(data);
             var parsedData = JSON.parse(data); // json is assumed valid, no need for checking
-            document.getElementById('network').innerHTML = "";
-            var container = document.getElementById('network');
             var graphData = null;
-            console.log(parsedData);
-            if (parsedData["error"] == null) {
+            if (!"error" in parsedData) {
                 graphData = {
                     nodes: parsedData["nodes"],
                     edges: parsedData["edges"]
                 };
-                console.log("Error has occured!\n");
             } else {
-                var errorNode = {
+                var errNodes = parsedData["nodes"];
+                var backNode = {
                     id: 1,
-                    title: parsedData["error"]["info"]["usrInfo"],
-                    label: parsedData["error"]["info"]["systemMessage"],
+                    label: "Back",
+                    borderWidth: 5,
+                    shape: "box",
+                    x: 0,
+                    y: 100,
                     color: {
-                        background: "#2A0A0A"
-                    },
-                    font: {
-                        color: "#FFFFFF",
-                        face: "arial",
-                        align: "center"
-                    }
+                        border: "#ED0000", background: "B30000"}
                 };
-
+                errNodes[1] = backNode;
+                var errEdges = [{from:0, to: 1}];
                 graphData = {
-                    nodes: errorNode,
-                    edges: null
+                    nodes: errNodes,
+                    edges: errEdges
                 };
             }
-            //TODO: opciókat is átadni szerver oldalról.
-            var options = {
-                configure: {
-                    enabled: true,
-                    showButton: true,
-                    filter: true
-                },
-                nodes: {
-                    borderWidth: 2,
-                    borderWidthSelected: 3,
-                    heightConstraint: false,
-                    margin: 5,
-                    shadow: false,
-                    font: {
-                        color: "#FFFFFF",
-                        face: "arial",
-                        align: "center"
-                    },
-                    color: {
-                        background: "#0000FF", // dark blue-ish
-                        highlight: "#2E2EFE", // light blue
-                        hover: "#0101DF" // dark blue
-                    },
-                },
-                edges: {
-                    smooth: {
-                        type: "dynamic",
-                        roundness: 0.6,
-                    },
-                    hoverWidth: 1.7,
-                    arrows: {
-                        to: {
-                            enabled: true,
-                            scaleFactor: 1.5,
-                            type: "arrow"
-                        },
-                        middle: false,
-                        from: false
-                    },
-                    arrowStrikethrough: false,
-                    chosen: true,
-                    color: {
-                        color: "#610B0B", // dark red-ish
-                        highlight: "#190707", // dark red
-                        hover: "#2A0A0A" // befor dark red, but after dark red-ish
-                    },
-                    shadow: false,
-                },
-                interaction: {
-                    hover: true,
-                    dragNodes: true,
-                    dragView: true,
-                    multiselect: true,
-                    hideEdgesOnDrag: true,
-                    hideNodesOnDrag: false,
-                    keyboard: false,
-                    multiselect: true,
-                    navigationButtons: false,
-                    zoomView:true
-                }
-            };
-
-            var network = new vis.Network(container, graphData, parsedData["options"]);
-        },
-        error: function (xhr, ajaxOptions, thrownError) { alert("Hiba! "+xhr.responseText+ " "+thrownError); },
+            
+            localStorage.setItem("graph", JSON.stringify(graphData));
+            localStorage.setItem("graphOpt", JSON.stringify(parsedData["options"]));
+            window.location.replace("/Home/Network");
+        }//,
+        //error: function (xhr, ajaxOptions, thrownError) { alert("Hiba! "+xhr.responseText+ " "+thrownError); },
     });
 }
+
+function ReadGraphDataFromStorage() {
+    var graphData = JSON.parse(localStorage.getItem("graph"));
+    if ("error" in graphData["nodes"][0]) {
+        graphData["nodes"][1]["chosen"] = {
+            edge: false, label: function (values, id, selected, hovering) {
+                window.history.back();
+            }
+        };
+    }
+    var graphOptions = JSON.parse(localStorage.getItem("graphOpt"));
+    var container = document.getElementById("network");
+    var network = new vis.Network(container, graphData, graphOptions);
+    return network;
+}
+
+function ShowNodeUrl(node) {
+
+} 
 
 function TestGraph() {
     alert("test");
