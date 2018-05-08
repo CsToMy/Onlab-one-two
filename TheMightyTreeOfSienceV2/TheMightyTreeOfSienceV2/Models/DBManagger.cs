@@ -109,12 +109,12 @@ namespace TheMightyTreeOfSienceV2.Models
         private JObject ReadGraphOptions()
         {
             //TODO: Create a non-path specific file path for reading
-            return ReadJsonFile("C:\\Users\\Tomi\\Documents\\Visual Studio 2015\\Projects\\Onlab-one-two\\TheMightyTreeOfSienceV2\\TheMightyTreeOfSienceV2\\TestJsons\\testOptions.json");
+            return ReadJsonFile(System.Configuration.ConfigurationManager.AppSettings["graphOptionPath"].ToString());
         }
 
         private string ReadWebBackendAddr()
         {
-            JObject webBackInfo = ReadJsonFile("C:\\Users\\Tomi\\Documents\\Visual Studio 2015\\Projects\\Onlab-one-two\\TheMightyTreeOfSienceV2\\TheMightyTreeOfSienceV2\\TestJsons\\webBackend.json");
+            JObject webBackInfo = ReadJsonFile(System.Configuration.ConfigurationManager.AppSettings["webBackendPath"].ToString());
             return (webBackInfo["address"].ToString() + webBackInfo["action"].ToString());
         }
 

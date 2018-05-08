@@ -42,7 +42,7 @@ namespace TheMightyTreeOfSienceV2.Controllers
                 data.ContentEncoding = Encoding.UTF8;
                 data.ContentType = "application/json; charset=utf-8";
                 data.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-
+                
                 // read json data
                 data.Data = networker.GetGraph(resource);
             }
